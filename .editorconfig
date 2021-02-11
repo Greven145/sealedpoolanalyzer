@@ -1,0 +1,33 @@
+# To learn more about .editorconfig see https://aka.ms/editorconfigdocs
+###############################
+# Core EditorConfig Options   #
+###############################
+# All files
+[*]
+indent_style = space
+# Code files
+[*.{cs,csx,vb,vbx}]
+indent_size = 4
+insert_final_newline = true
+charset = utf-8-bom
+###############################
+# .NET Coding Conventions     #
+###############################
+[*.{cs,vb}]
+# Organize usings
+dotnet_sort_system_directives_first = true
+
+# Naming rules
+dotnet_naming_rule.private_or_internal_field_should_be_underscore.severity = warning
+dotnet_naming_rule.private_or_internal_field_should_be_underscore.symbols = private_or_internal_field
+dotnet_naming_rule.private_or_internal_field_should_be_underscore.style = underscore
+
+# Symbol specifications
+
+dotnet_naming_symbols.private_or_internal_field.applicable_kinds = field
+dotnet_naming_symbols.private_or_internal_field.applicable_accessibilities = internal, private
+
+# Naming styles
+
+dotnet_naming_style.underscore.required_prefix = _
+dotnet_naming_style.underscore.capitalization = camel_case
