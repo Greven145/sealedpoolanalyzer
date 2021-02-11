@@ -1,0 +1,227 @@
+﻿@page "/"
+@using Web.Data
+@using Logic.models
+@using Logic.models.Review
+@using Logic.models.Scryfall
+@using Logic
+@using System.IO
+@inject DeckAnalysisService DeckAnalysisService
+
+<h1>Deck Analysis</h1>
+
+<p>
+    <label>Deck file:</label>
+    <InputFile OnChange="@OnInputDeckFileChange" />
+</p>
+
+<p>
+    <label>Pool file:</label>
+    <InputFile OnChange="@OnInputPoolFileChange" />
+</p>
+
+@if (DeckAndRatings != null)
+{
+    <h1>Deck Ranking</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Card Name</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cardAndRating in DeckAndRatings)
+            {
+                <tr>
+                    <td>@(++deckCounter)</td>
+                    <td><auto-card>@cardAndRating.Name</auto-card></td>
+                    <td>@cardAndRating.Rating</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (PoolAndRatings != null)
+{
+    <h1>Pool Ranking</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Card Name</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cardAndRating in PoolAndRatings)
+            {
+                <tr>
+                    <td>@(++poolCounter)</td>
+                    <td><auto-card>@cardAndRating.Name</auto-card></td>
+                    <td>@cardAndRating.Rating</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@if (ColorRatings != null)
+{
+    <h1>Color Ranking</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (var header in ColorRatings.Select(c => c.Color))
+                {
+                    <th>@header</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var rating in ColorRatings.Select(c => c.Rating))
+            {
+            <td>@rating</td>
+        }
+            </tbody>
+        </table>
+    }
+
+@if (TribalData != null)
+{
+    <h1>Tribal Ranking</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tribe</th>
+                <th>Total</th>
+                <th>Avg Rating</th>
+                <th>Overall Rating</th>
+                <th>Colors</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tribalData in TribalData)
+            {
+                <tr>
+                    <td>@tribalData.Tribe</td>
+                    <td>@tribalData.NumberOfCreatures</td>
+                    <td>@DataAnalysis.GetRatingDisplay(tribalData.AvgRating)</td>
+                    <td>@tribalData.TribalRating</td>
+                    <td>@string.Join(",", tribalData.Colors)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (InColorCards != null)
+{
+    <h1>Cards in your colors to consider</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Cost</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cardsToConsider in InColorCards)
+            {
+                <tr>
+                    <td><auto-card>@cardsToConsider.Name</auto-card></td>
+                    <td>@cardsToConsider.Cost</td>
+                    <td>@DataAnalysis.GetRatingDisplay(cardsToConsider.Rating)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (SharedColorCards != null)
+{
+    <h1>Cards that share a color to consider</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Cost</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cardsToConsider in SharedColorCards)
+            {
+                <tr>
+                    <td><auto-card>@cardsToConsider.Name</auto-card></td>
+                    <td>@cardsToConsider.Cost</td>
+                    <td>@DataAnalysis.GetRatingDisplay(cardsToConsider.Rating)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<(string Name, double Rating)> DeckAndRatings;
+    private IEnumerable<(string Name, double Rating)> PoolAndRatings;
+    private IEnumerable<TribalCards> TribalData { get; set; }
+    private IEnumerable<(string Color, string Rating)> ColorRatings { get; set; }
+    private IEnumerable<ConsiderCards> InColorCards { get; set; }
+    private IEnumerable<ConsiderCards> SharedColorCards { get; set; }
+
+    private int deckCounter;
+    private int poolCounter;
+    private List<ReviewValues> _reviewCards;
+    private List<SetCard> _setCards;
+    private IEnumerable<MergedData> _deck;
+    private IEnumerable<MergedData> _pool;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _reviewCards = DataLoader.GetReviewCards(@"../data/fullSetReview.csv");
+        _setCards = DataLoader.GetSetCards(@"../data/kaldheimcards.json");
+    }
+
+    private async Task OnInputDeckFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        using var streamReader = new StreamReader(file.OpenReadStream());
+        var deck = await DataLoader.GetCardsFromSealedCsvAsync(streamReader);
+        _deck = DataAnalysis.GetMergedData(deck, _setCards, _reviewCards);
+        await DisplayWhatIsPossible();
+    }
+
+    private async Task DisplayWhatIsPossible()
+    {
+        deckCounter = 0;
+        poolCounter = 0;
+        if (_deck != null)
+        {
+            DeckAndRatings = await DeckAnalysisService.GetDeckAnalysis(_deck);
+        }
+        if (_pool != null)
+        {
+            PoolAndRatings = await DeckAnalysisService.GetDeckAnalysis(_pool);
+            TribalData = DeckAnalysisService.GetTribalData(_pool).OrderByDescending(t => t.TribalRating);
+            ColorRatings = DeckAnalysisService.WriteColorRatings(_pool);
+        }
+        if (_deck != null && _pool != null)
+        {
+            (InColorCards, SharedColorCards) = DeckAnalysisService.GetGoodCardsYoureNotPlaying(_deck, _pool);
+        }
+    }
+
+    private async Task OnInputPoolFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        using var streamReader = new StreamReader(file.OpenReadStream());
+        var pool = await DataLoader.GetCardsFromSealedCsvAsync(streamReader);
+        _pool = DataAnalysis.GetMergedData(pool, _setCards, _reviewCards);
+        await DisplayWhatIsPossible();
+    }
+
+}
