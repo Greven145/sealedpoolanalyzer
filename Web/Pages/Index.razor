@@ -184,8 +184,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _reviewCards = DataLoader.GetReviewCards(@"../data/fullSetReview.csv");
-        _setCards = DataLoader.GetSetCards(@"../data/kaldheimcards.json");
+        _reviewCards = DataLoader.GetReviewCards(@"fullSetReview.csv");
+        _setCards = DataLoader.GetSetCards(@"kaldheimcards.json");
     }
 
     private async Task OnInputDeckFileChange(InputFileChangeEventArgs e)
