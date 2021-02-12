@@ -81,13 +81,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var rating in ColorRatings.Select(c => c.Rating))
-            {
-            <td>@rating</td>
-        }
-            </tbody>
-        </table>
-    }
+            <tr>
+                @foreach (var rating in ColorRatings.Select(c => c.Rating))
+                {
+                    <td>@rating</td>
+                }
+            </tr>
+        </tbody>
+    </table>
+}
 
 @if (TribalData != null)
 {
