@@ -1,4 +1,12 @@
-﻿namespace Domain.Entities {
+﻿using System.Collections.Generic;
+
+namespace Domain.Entities {
     public class MagicCard {
+        public string Name { get; set; }
+        public IEnumerable<int> MultiverseIds { get; set; }
+        public string ManaCost { get; set; }
+        public string TypeLine { get; set; }
+        public IEnumerable<string> Colors { get; set; }
+        public IEnumerable<Set> Sets { get; set; }
     }
 }
