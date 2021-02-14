@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Application.Models.tmp.CardPool {
+namespace Infrastructure.Models.tmp.CardPool {
     public class SealedCards : IEquatable<SealedCards> {
         public int TotalQty { get; set; }
         public int RegQty { get; set; }

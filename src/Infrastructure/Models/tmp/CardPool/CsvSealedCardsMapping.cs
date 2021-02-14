@@ -1,6 +1,6 @@
 ﻿using TinyCsvParser.Mapping;
 
-namespace Application.Models.tmp.CardPool {
+namespace Infrastructure.Models.tmp.CardPool {
     public class CsvSealedCardsMapping : CsvMapping<SealedCards> {
         public CsvSealedCardsMapping() {
             MapProperty(0, x => x.TotalQty);

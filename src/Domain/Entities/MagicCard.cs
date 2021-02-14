@@ -7,6 +7,7 @@ namespace Domain.Entities {
         public string ManaCost { get; set; }
         public string TypeLine { get; set; }
         public IEnumerable<string> Colors { get; set; }
-        public IEnumerable<Set> Sets { get; set; }
+        public Set Sets { get; set; }
+        public MagicCardReview Review { get; set; }
     }
 }

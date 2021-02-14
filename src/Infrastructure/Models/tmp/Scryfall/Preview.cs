@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Application.Models.tmp.Scryfall {
+namespace Infrastructure.Models.tmp.Scryfall {
     public class Preview {
         [JsonPropertyName("source")] public string Source { get; set; }
 

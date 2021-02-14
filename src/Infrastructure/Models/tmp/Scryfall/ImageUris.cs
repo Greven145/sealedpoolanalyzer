@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Application.Models.tmp.Scryfall {
+namespace Infrastructure.Models.tmp.Scryfall {
     public class ImageUris {
         [JsonPropertyName("small")] public string Small { get; set; }
 

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Application.Mapping;
+using Domain.Entities;
 
-namespace Application.Models.tmp.Scryfall {
-    public class SetCard : IEquatable<SetCard> {
+namespace Infrastructure.Models.tmp.Scryfall {
+    public class Card : IEquatable<Card>, IMapFrom<MagicCard> {
         [JsonPropertyName("object")] public string Object { get; set; }
 
         [JsonPropertyName("id")] public string Id { get; set; }
@@ -146,7 +148,7 @@ namespace Application.Models.tmp.Scryfall {
 
         [JsonPropertyName("printed_text")] public string PrintedText { get; set; }
 
-        public bool Equals(SetCard other) {
+        public bool Equals(Card other) {
             return Name == other.Name;
         }
 
