@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Application.Models.tmp.Review {
+namespace Infrastructure.Models.tmp.Review {
     public class ReviewValues : IEquatable<ReviewValues> {
         public int Kal { get; set; }
         public string Name { get; set; }

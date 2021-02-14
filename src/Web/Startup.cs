@@ -1,10 +1,13 @@
 ﻿using System.IO;
+using Application;
+using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Persistence;
 using Web.Data;
 
 namespace Web {
@@ -23,18 +26,23 @@ namespace Web {
         public void ConfigureServices(IServiceCollection services) {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddApplication();
+            services.AddInfrastructure();
+            services.AddPersistence();
 
-            services.AddSingleton(DataLoader.GetReviewCards(Path.Combine(
+            //TODO: Temp, this is bad
+            var dataLoader = new DataLoader();
+            services.AddSingleton(dataLoader.GetReviewCards(Path.Combine(
                 _env.ContentRootPath,
                 @"Data/fullSetReview.csv"
             )));
-            services.AddSingleton(DataLoader.GetSetCards(Path.Combine(
+            services.AddSingleton(dataLoader.GetSetCards(Path.Combine(
                 _env.ContentRootPath,
                 @"Data/kaldheimcards.json"
             )));
-            
-            
-            services.AddSingleton<DeckAnalysisService>();
+
+
+            services.AddScoped<DeckAnalysisService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

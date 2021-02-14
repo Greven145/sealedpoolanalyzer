@@ -1,6 +1,6 @@
 ﻿using CsvHelper.Configuration;
 
-namespace Application.Models.tmp.Review {
+namespace Infrastructure.Models.tmp.Review {
     public class ReviewValuesClassMap : ClassMap<ReviewValues> {
         public ReviewValuesClassMap() {
             Map(m => m.Kal).Name("Kal");

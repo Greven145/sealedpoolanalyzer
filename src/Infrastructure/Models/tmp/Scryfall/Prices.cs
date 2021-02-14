@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Application.Models.tmp.Scryfall {
+namespace Infrastructure.Models.tmp.Scryfall {
     public class Prices {
         [JsonPropertyName("usd")] public string Usd { get; set; }
 

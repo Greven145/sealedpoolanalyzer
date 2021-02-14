@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Application.Models.tmp.Scryfall {
+namespace Infrastructure.Models.tmp.Scryfall {
     public class CardFace {
         [JsonPropertyName("object")] public string Object { get; set; }
 
