@@ -21,7 +21,7 @@ namespace Infrastructure.Integration.Brokers.Scryfall {
 
             var result = await broker.GetSetFromId(_setId);
 
-            result.Count().Should().Be(0);
+            result.MagicCards.Count().Should().Be(0);
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace Infrastructure.Integration.Brokers.Scryfall {
 
             var result = await broker.GetSetFromId(_setId);
 
-            result.Count().Should().Be(40);
+            result.MagicCards.Count().Should().Be(40);
         }
     }
 }

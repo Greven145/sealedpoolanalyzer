@@ -7,34 +7,36 @@ using Application.Features.DataAnalysis;
 using Application.Models;
 using Domain.Entities;
 using Infrastructure.Models.tmp.CardPool;
+using Microsoft.Extensions.Logging;
 
 namespace Web.Data {
     /// <summary>
     ///     TODO: This needs to be not here.
     /// </summary>
     public class DeckAnalysisService {
+        private readonly ILogger<DeckAnalysisService> _logger;
         private readonly ISetRepository _repository;
 
-        public DeckAnalysisService(ISetRepository repository) {
+        public DeckAnalysisService(ISetRepository repository, ILogger<DeckAnalysisService> logger) {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async ValueTask<IEnumerable<MagicCard>> GetCardsForPool(IEnumerable<SealedCards> sealedCards) {
             //TODO: Hard coded set name
-            var set = await _repository.GetSetByShortName("KHM").ConfigureAwait(false);
-            var cards = set.Cards.Join(sealedCards, setCard => setCard.Name, sealedCard => sealedCard.Card,
-                (setCard, sealedCard) => new {setCard, sealedCard}).ToList();
+            var set = await _repository.GetSetByShortName("khm");
+            var cards = set.MagicCards.Join(sealedCards, setCard => setCard.Name, sealedCard => sealedCard.Card,
+                (setCard, sealedCard) => setCard).ToList();
 
-            var tempList = new List<MagicCard>();
-
-            foreach (var duplicates in cards.Where(s => s.sealedCard.TotalQty > 1)) {
-                for (var x = 1; x < duplicates.sealedCard.TotalQty; x++) {
-                    tempList.Add(duplicates.setCard);
-                }
+            var cardsNotfound = sealedCards
+                .Where(s => !cards.Select(t => t.Name).Contains(s.Card))
+                .Select(s => s.Card);
+            
+            if (cardsNotfound.Any()) {
+                _logger.LogWarning("Unable to find the following cards: {0}", cardsNotfound);
             }
 
-            tempList.AddRange(cards.Select(c => c.setCard));
-            return tempList;
+            return cards;
         }
 
 

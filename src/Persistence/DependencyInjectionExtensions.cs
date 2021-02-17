@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.IPersistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Repositories;
 

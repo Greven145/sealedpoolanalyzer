@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 
 namespace Application.Mapping {
-    public interface IMapFrom<T> {
+    public interface IMapTo<T> {
         void Mapping(Profile profile) {
-            profile.CreateMap(typeof(T), GetType());
+            profile.CreateMap(GetType(), typeof(T));
         }
     }
 }

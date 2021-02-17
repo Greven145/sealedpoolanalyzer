@@ -11,6 +11,8 @@ namespace Infrastructure {
             services.AddScoped<ISetLoader, ScryfallBroker>();
             services.AddScoped<DataLoader>();
             services.AddHttpClient<IScryfallFactoryClient, ScryfallFactoryClient>();
+            
+            services.AddHostedService<DataInitializerService>();
 
             return services;
         }

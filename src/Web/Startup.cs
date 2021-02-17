@@ -26,21 +26,9 @@ namespace Web {
         public void ConfigureServices(IServiceCollection services) {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddApplication();
+            services.AddApplication(Configuration);
             services.AddInfrastructure();
             services.AddPersistence();
-
-            //TODO: Temp, this is bad
-            var dataLoader = new DataLoader();
-            services.AddSingleton(dataLoader.GetReviewCards(Path.Combine(
-                _env.ContentRootPath,
-                @"Data/fullSetReview.csv"
-            )));
-            services.AddSingleton(dataLoader.GetSetCards(Path.Combine(
-                _env.ContentRootPath,
-                @"Data/kaldheimcards.json"
-            )));
-
 
             services.AddScoped<DeckAnalysisService>();
         }

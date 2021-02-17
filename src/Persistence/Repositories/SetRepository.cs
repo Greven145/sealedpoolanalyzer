@@ -10,13 +10,17 @@ namespace Persistence.Repositories {
         }
 
         public async ValueTask<Set> GetSetByName(string name) {
-            return await _dbContext.Sets.FirstAsync(s =>
-                s.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+            return await _dbContext.Sets
+                .Include(s => s.MagicCards)
+                .ThenInclude(c => c.Review)
+                .FirstAsync(s => s.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public async ValueTask<Set> GetSetByShortName(string shortName) {
-            return await _dbContext.Sets.FirstAsync(s =>
-                s.Code.Equals(shortName, StringComparison.InvariantCultureIgnoreCase));
+            return await _dbContext.Sets
+                .Include(s => s.MagicCards)
+                .ThenInclude(c => c.Review)
+                .FirstAsync(s => s.Code == shortName);
         }
     }
 }
