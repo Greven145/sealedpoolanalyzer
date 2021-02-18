@@ -5,10 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Data\Kaldheim.Review.json" />
     <Content Remove="Data\kaldheimcards.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Data\Kaldheim.Review.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Data\kaldheimcards.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

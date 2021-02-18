@@ -5,6 +5,6 @@ using Domain.Entities;
 
 namespace Application.Contracts.IInfrastructure {
     public interface ISetLoader {
-        ValueTask<IEnumerable<MagicCard>> GetSetFromId(Guid id);
+        ValueTask<Set> GetSetFromId(Guid id);
     }
 }
