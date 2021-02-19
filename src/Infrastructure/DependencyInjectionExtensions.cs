@@ -2,6 +2,8 @@
 using Application.Contracts.IInfrastructure;
 using Infrastructure.Brokers.Scryfall;
 using Infrastructure.Data;
+using Infrastructure.Data.Parsers;
+using Infrastructure.Data.Parsers.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure {
@@ -13,6 +15,12 @@ namespace Infrastructure {
             services.AddHttpClient<IScryfallFactoryClient, ScryfallFactoryClient>();
             
             services.AddHostedService<DataInitializerService>();
+            
+            var pipeline = new DeckParsingPipelineBuilder<FileParserContext>()
+                .Register(new DeckedBuilderCsvParser())
+                .Build();
+
+            services.AddSingleton(pipeline);
 
             return services;
         }

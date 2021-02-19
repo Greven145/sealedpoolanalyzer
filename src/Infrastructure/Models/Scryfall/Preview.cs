@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Infrastructure.Models.tmp.Scryfall {
+namespace Infrastructure.Models.Scryfall {
     public class Preview {
         [JsonProperty("source")] public string Source { get; set; }
 

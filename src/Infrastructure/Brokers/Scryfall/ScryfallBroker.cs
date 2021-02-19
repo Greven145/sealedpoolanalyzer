@@ -6,7 +6,7 @@ using Application.Contracts.IInfrastructure;
 using Application.Exceptions;
 using AutoMapper;
 using Domain.Entities;
-using Infrastructure.Models.tmp.Scryfall;
+using Infrastructure.Models.Scryfall;
 using RESTFulSense.Exceptions;
 using Set = Domain.Entities.Set;
 
@@ -14,7 +14,7 @@ namespace Infrastructure.Brokers.Scryfall {
     public class ScryfallBroker : ISetLoader {
         private readonly IScryfallFactoryClient _apiFactoryClient;
         private readonly IMapper _mapper;
-        private const string CardFilter = "q=e:khm+-is:themepack+-frame:showcase+-frame:inverted+-frame:extendedart+-border:borderless+-is:promo";
+        private const string _cardFilter = "q=e:khm+-is:themepack+-frame:showcase+-frame:inverted+-frame:extendedart+-border:borderless+-is:promo";
 
         public ScryfallBroker(IScryfallFactoryClient apiFactoryClient, IMapper mapper) {
             _apiFactoryClient = apiFactoryClient ?? throw new ArgumentNullException(nameof(apiFactoryClient));
@@ -22,16 +22,16 @@ namespace Infrastructure.Brokers.Scryfall {
         }
 
         public async ValueTask<Set> GetSetFromId(Guid id) {
-            Models.tmp.Scryfall.Set scryfallSet;
+            Models.Scryfall.Set scryfallSet;
             try {
-                scryfallSet = await _apiFactoryClient.GetContentAsync<Models.tmp.Scryfall.Set>($"sets/{id}");
+                scryfallSet = await _apiFactoryClient.GetContentAsync<Models.Scryfall.Set>($"sets/{id}");
             }
             catch (HttpResponseInternalServerErrorException e) {
                 throw new CommunicationException("Unable to load set data from Scryfall", e);
             }
 
 
-            scryfallSet.SearchUri = scryfallSet.SearchUri.Replace("q=e%3Akhm", CardFilter);
+            scryfallSet.SearchUri = scryfallSet.SearchUri.Replace("q=e%3Akhm", _cardFilter);
             scryfallSet.SearchUri = scryfallSet.SearchUri.Replace("unique=prints", "unique=name");
 
             var relativePath = new Uri(scryfallSet.SearchUri).PathAndQuery;

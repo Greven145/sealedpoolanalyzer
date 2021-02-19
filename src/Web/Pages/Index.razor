@@ -5,8 +5,10 @@
 @using Domain.Entities
 @using Application.Features.DataAnalysis
 @using System.IO
+@using AutoMapper
+@using Infrastructure.Data.Parsers
+@using Infrastructure.Data.Parsers.Pipeline
 @inject DeckAnalysisService DeckAnalysisService
-@inject DataLoader DataLoader
 
 <h1>Deck Analysis</h1>
 
@@ -20,7 +22,7 @@
     <InputFile OnChange="@OnInputPoolFileChange"/>
 </p>
 
-@if (DeckAndRatings != null) {
+@if (DeckAnalysisService.DeckAndRatings != null) {
     <h1>Deck Ranking</h1>
     <table class="table">
         <thead>
@@ -31,20 +33,20 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var cardAndRating in DeckAndRatings) {
+        @foreach (var (name, rating, index) in DeckAnalysisService.DeckAndRatings.Select((d,index) => (d.Name,d.Rating,index))) {
             <tr>
-                <td>@(++deckCounter)</td>
+                <td>@(index+1)</td>
                 <td>
-                    <auto-card>@cardAndRating.Name</auto-card>
+                    <auto-card>@name</auto-card>
                 </td>
-                <td>@cardAndRating.Rating</td>
+                <td>@DataAnalysis.GetRatingDisplay(rating)</td>
             </tr>
         }
         </tbody>
     </table>
 }
 
-@if (PoolAndRatings != null) {
+@if (DeckAnalysisService.PoolAndRatings != null) {
     <h1>Pool Ranking</h1>
     <table class="table">
         <thead>
@@ -55,13 +57,13 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var cardAndRating in PoolAndRatings) {
+        @foreach (var (name, rating, index) in DeckAnalysisService.PoolAndRatings.Select((d, index) => (d.Name, d.Rating, index))) {
             <tr>
-                <td>@(++poolCounter)</td>
+                <td>@(index+1)</td>
                 <td>
-                    <auto-card>@cardAndRating.Name</auto-card>
+                    <auto-card>@name</auto-card>
                 </td>
-                <td>@cardAndRating.Rating</td>
+                <td>@DataAnalysis.GetRatingDisplay(rating)</td>
             </tr>
         }
         </tbody>
@@ -69,19 +71,19 @@
 }
 
 
-@if (ColorRatings != null) {
+@if (DeckAnalysisService.ColorRatings != null) {
     <h1>Color Ranking</h1>
     <table class="table">
         <thead>
         <tr>
-            @foreach (var header in ColorRatings.Select(c => c.Color)) {
+            @foreach (var header in DeckAnalysisService.ColorRatings.Select(c => c.Color)) {
                 <th>@header</th>
             }
         </tr>
         </thead>
         <tbody>
         <tr>
-            @foreach (var rating in ColorRatings.Select(c => c.Rating)) {
+            @foreach (var rating in DeckAnalysisService.ColorRatings.Select(c => c.Rating)) {
                 <td>@rating</td>
             }
         </tr>
@@ -89,7 +91,7 @@
     </table>
 }
 
-@if (TribalData != null) {
+@if (DeckAnalysisService.TribalData != null) {
     <h1>Tribal Ranking</h1>
     <table class="table">
         <thead>
@@ -102,7 +104,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var tribalData in TribalData) {
+        @foreach (var tribalData in DeckAnalysisService.TribalData) {
             <tr>
                 <td>@tribalData.Tribe</td>
                 <td>@tribalData.NumberOfCreatures</td>
@@ -115,7 +117,7 @@
     </table>
 }
 
-@if (InColorCards != null) {
+@if (DeckAnalysisService.InColorCards != null) {
     <h1>Cards in your colors to consider</h1>
     <table class="table">
         <thead>
@@ -126,7 +128,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var cardsToConsider in InColorCards) {
+        @foreach (var cardsToConsider in DeckAnalysisService.InColorCards) {
             <tr>
                 <td>
                     <auto-card>@cardsToConsider.Name</auto-card>
@@ -139,7 +141,7 @@
     </table>
 }
 
-@if (SharedColorCards != null) {
+@if (DeckAnalysisService.SharedColorCards != null) {
     <h1>Cards that share a color to consider</h1>
     <table class="table">
         <thead>
@@ -150,7 +152,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var cardsToConsider in SharedColorCards) {
+        @foreach (var cardsToConsider in DeckAnalysisService.SharedColorCards) {
             <tr>
                 <td>
                     <auto-card>@cardsToConsider.Name</auto-card>
@@ -164,52 +166,11 @@
 }
 
 @code {
-    private IEnumerable<(string Name, decimal Rating)> DeckAndRatings;
-    private IEnumerable<(string Name, decimal Rating)> PoolAndRatings;
-    private IEnumerable<TribalCards> TribalData { get; set; }
-    private IEnumerable<(string Color, string Rating)> ColorRatings { get; set; }
-    private IEnumerable<ConsiderCards> InColorCards { get; set; }
-    private IEnumerable<ConsiderCards> SharedColorCards { get; set; }
-
-    private int deckCounter;
-    private int poolCounter;
-    private IEnumerable<MagicCard> _deck;
-    private IEnumerable<MagicCard> _pool;
-
-
-    protected override async Task OnInitializedAsync() {
-    }
-
     private async Task OnInputDeckFileChange(InputFileChangeEventArgs e) {
-        var file = e.File;
-        using var streamReader = new StreamReader(file.OpenReadStream());
-        var deck = await DataLoader.GetCardsFromSealedCsvAsync(streamReader);
-        _deck = await DeckAnalysisService.GetCardsForPool(deck);
-        await DisplayWhatIsPossible();
-    }
-
-    private async Task DisplayWhatIsPossible() {
-        deckCounter = 0;
-        poolCounter = 0;
-        if (_deck != null) {
-            DeckAndRatings = await DeckAnalysisService.GetDeckAnalysis(_deck);
-        }
-        if (_pool != null) {
-            PoolAndRatings = await DeckAnalysisService.GetDeckAnalysis(_pool);
-            TribalData = DeckAnalysisService.GetTribalData(_pool).OrderByDescending(t => t.TribalRating);
-            ColorRatings = DeckAnalysisService.WriteColorRatings(_pool);
-        }
-        if (_deck != null && _pool != null) {
-            (InColorCards, SharedColorCards) = DeckAnalysisService.GetGoodCardsYoureNotPlaying(_deck, _pool);
-        }
+        await DeckAnalysisService.ProcessDeckChangeEvent(e);
     }
 
     private async Task OnInputPoolFileChange(InputFileChangeEventArgs e) {
-        var file = e.File;
-        using var streamReader = new StreamReader(file.OpenReadStream());
-        var pool = await DataLoader.GetCardsFromSealedCsvAsync(streamReader);
-        _pool = await DeckAnalysisService.GetCardsForPool(pool);
-        await DisplayWhatIsPossible();
+        await DeckAnalysisService.ProcessPoolChangeEvent(e);
     }
-
 }

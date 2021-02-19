@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Infrastructure.Models.tmp.Scryfall {
+namespace Infrastructure.Models.Scryfall {
     public class SearchResult {
         [JsonProperty("object")] public string Object { get; set; }
 

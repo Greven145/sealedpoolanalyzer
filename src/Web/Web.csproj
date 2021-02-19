@@ -6,14 +6,10 @@
 
   <ItemGroup>
     <Content Remove="Data\Kaldheim.Review.json" />
-    <Content Remove="Data\kaldheimcards.json" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Data\Kaldheim.Review.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\kaldheimcards.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -22,12 +18,6 @@
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\Persistence\Persistence.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Data\fullSetReview.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
