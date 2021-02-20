@@ -4,15 +4,19 @@ using System.Linq;
 using System.Text.Json;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Models;
 
 namespace Persistence {
     public class AnalyzerContext : DbContext {
         public DbSet<MagicCard> Cards { get; set; }
         public DbSet<Set> Sets { get; set; }
         public DbSet<MagicCardReview> Reviews { get; set; }
+        public DbSet<DeckedBuilderToScryfallRelationship> DB2Scryfall { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options) {
-            options.UseSqlite("Data Source=cards.db");
+            if (!options.IsConfigured) {
+                options.UseSqlite("Data Source=cards.db");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -26,6 +30,11 @@ namespace Persistence {
                 .HasConversion(
                     m => JsonSerializer.Serialize(m,null),
                     m => JsonSerializer.Deserialize<IEnumerable<int>>(m,null));
+            modelBuilder.Entity<DeckedBuilderToScryfallRelationship>()
+                .HasKey(d => d.Id);
+            modelBuilder.Entity<DeckedBuilderToScryfallRelationship>()
+                .Property(d => d.Id)
+                .ValueGeneratedNever();
             
             base.OnModelCreating(modelBuilder);
         }

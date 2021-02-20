@@ -10,17 +10,19 @@ using TinyCsvParser;
 using TinyCsvParser.Mapping;
 
 namespace Infrastructure.Data.Parsers {
-    public class DeckedBuilderCsvParser  : DeckParser<FileParserContext> {
+    public class DeckedBuilderCsvParser : DeckParser<FileParserContext> {
         /// <summary>
-        /// Dunno why, but kaldheim cards from Decked Builder are the below above
-        /// the actual value
+        ///     Dunno why, but kaldheim cards from Decked Builder are the below above
+        ///     the actual value
         /// </summary>
         private const int _multiverseIdOffset = 740979;
-        private static readonly CsvSealedCardsMapping _mapper = new ();
+
+        private static readonly CsvSealedCardsMapping _mapper = new();
         private static readonly CsvParserOptions _parserOptions = new(true, ',');
         private static readonly CsvReaderOptions _readerOptions = new(new[] {Environment.NewLine, "\n"});
 
-        protected override async ValueTask<IEnumerable<CardFromFile>> Execute(FileParserContext context, Func<FileParserContext, ValueTask<IEnumerable<CardFromFile>>> next) {
+        protected override async ValueTask<IEnumerable<CardFromFile>> Execute(FileParserContext context,
+            Func<FileParserContext, ValueTask<IEnumerable<CardFromFile>>> next) {
             var fileExtension = Path.GetExtension(context.Name);
 
             if (string.IsNullOrEmpty(fileExtension) ||
@@ -29,7 +31,7 @@ namespace Infrastructure.Data.Parsers {
             }
 
             var fileContent = Encoding.ASCII.GetString(context.Content);
-                
+
             var csvParser = new CsvParser<SealedCards>(_parserOptions, _mapper);
             var csvParseResult = csvParser.ReadFromString(_readerOptions, fileContent).ToList();
             var sealedCards = csvParseResult.Select(r => r.Result).ToList();
@@ -53,19 +55,18 @@ namespace Infrastructure.Data.Parsers {
                 MultiverseId = s.Mvid - _multiverseIdOffset
             });
             return context.Cards;
-
         }
-        
+
         private class SealedCards {
-            public int TotalQty { get; set; }
-            public string Name { get; set; }
             public int Mvid { get; set; }
+            public string Name { get; set; }
+            public int TotalQty { get; set; }
 
             public SealedCards ShallowCopy() {
                 return (SealedCards) MemberwiseClone();
             }
         }
-        
+
         private class CsvSealedCardsMapping : CsvMapping<SealedCards> {
             public CsvSealedCardsMapping() {
                 MapProperty(0, x => x.TotalQty);

@@ -16,8 +16,14 @@ namespace Infrastructure.Data.Parsers.Pipeline {
             }
         }
 
-        ValueTask<IEnumerable<CardFromFile>> IDeckParser<TContext>.Execute(TContext context) {
-            return Execute(context, ctx => _next?.Execute(ctx) ?? ValueTask.FromResult(Enumerable.Empty<CardFromFile>()));
+        async ValueTask<IEnumerable<CardFromFile>> IDeckParser<TContext>.Execute(TContext context) {
+            try {
+                return await Execute(context, ctx => _next?.Execute(ctx) ?? ValueTask.FromResult(Enumerable.Empty<CardFromFile>()));
+            }
+            catch (Exception e) {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         protected abstract ValueTask<IEnumerable<CardFromFile>> Execute(TContext context, Func<TContext, ValueTask<IEnumerable<CardFromFile>>> next);

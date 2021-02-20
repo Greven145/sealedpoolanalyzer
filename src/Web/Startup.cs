@@ -27,8 +27,8 @@ namespace Web {
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddApplication(Configuration);
-            services.AddInfrastructure();
             services.AddPersistence();
+            services.AddInfrastructure();
 
             services.AddScoped<DeckAnalysisService>();
         }
