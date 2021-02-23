@@ -52,15 +52,18 @@ namespace Web.Data {
         private async ValueTask<IEnumerable<MagicCard>> GetCardsForPool(IEnumerable<CardFromFile> sealedCards) {
             //TODO: Hard coded set name
             var set = await _repository.GetSetByShortName("khm");
-            var cards = set.MagicCards.Join(sealedCards, setCard => setCard.Name, sealedCard => sealedCard.Name,
-                (setCard, sealedCard) => setCard).ToList();
+            var cards = sealedCards.Select(sealedCard => 
+                set.MagicCards.First(m => 
+                    m.MultiverseIds.Contains(sealedCard.MultiverseId)
+                    )
+                ).ToList();
 
-            var cardsNotfound = sealedCards
-                .Where(s => !cards.Select(t => t.Name).Contains(s.Name))
+            var cardsNotFound = sealedCards
+                .Where(s => !cards.SelectMany(t => t.MultiverseIds).Contains(s.MultiverseId))
                 .Select(s => s.Name);
 
-            if (cardsNotfound.Any()) {
-                _logger.LogWarning("Unable to find the following cards: {0}", cardsNotfound);
+            if (cardsNotFound.Any()) {
+                _logger.LogWarning("Unable to find the following cards: {0}", cardsNotFound);
             }
 
             return cards;
@@ -106,8 +109,14 @@ namespace Web.Data {
         }
 
         private async Task<IEnumerable<MagicCard>> ParseFile(InputFileChangeEventArgs e) {
-            var cards = await _deckParser.Execute(await FileParserContext.FromIBrowserFile(e.File));
-            return await GetCardsForPool(cards);
+            try {
+                var cards = await _deckParser.Execute(await FileParserContext.FromIBrowserFile(e.File));
+                return await GetCardsForPool(cards);
+            }
+            catch (Exception exception) {
+                Console.WriteLine(exception);
+                throw;
+            }
         }
     }
 }

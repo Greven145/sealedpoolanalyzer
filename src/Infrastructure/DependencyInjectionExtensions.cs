@@ -21,6 +21,7 @@ namespace Infrastructure {
 
             services.AddScoped<DeckedBuilderCsvParser>();
             services.AddScoped<DeckedBuilderColl2Parser>();
+            services.AddScoped<DeckedBuilderDecParser>();
 
             services.AddHostedService<DataInitializerService>();
 
@@ -30,6 +31,7 @@ namespace Infrastructure {
                 return new DeckParsingPipelineBuilder<FileParserContext>()
                     .Register(serviceProvider.GetService<DeckedBuilderCsvParser>())
                     .Register(serviceProvider.GetService<DeckedBuilderColl2Parser>())
+                    .Register(serviceProvider.GetService<DeckedBuilderDecParser>())
                     .Build();
             });
 

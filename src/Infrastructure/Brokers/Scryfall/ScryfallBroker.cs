@@ -14,7 +14,8 @@ namespace Infrastructure.Brokers.Scryfall {
     public class ScryfallBroker : ISetLoader {
         private readonly IScryfallFactoryClient _apiFactoryClient;
         private readonly IMapper _mapper;
-        private const string _cardFilter = "q=e:khm+-is:themepack+-frame:showcase+-frame:inverted+-frame:extendedart+-border:borderless+-is:promo";
+        //private const string _cardFilter = "q=e:khm+-is:themepack+-frame:showcase+-frame:inverted+-frame:extendedart+-border:borderless+-is:promo";
+        private const string _cardFilter = "q=e:khm+-is:themepack";
 
         public ScryfallBroker(IScryfallFactoryClient apiFactoryClient, IMapper mapper) {
             _apiFactoryClient = apiFactoryClient ?? throw new ArgumentNullException(nameof(apiFactoryClient));
@@ -32,7 +33,7 @@ namespace Infrastructure.Brokers.Scryfall {
 
 
             scryfallSet.SearchUri = scryfallSet.SearchUri.Replace("q=e%3Akhm", _cardFilter);
-            scryfallSet.SearchUri = scryfallSet.SearchUri.Replace("unique=prints", "unique=name");
+            //scryfallSet.SearchUri = scryfallSet.SearchUri.Replace("unique=prints", "unique=name");
 
             var relativePath = new Uri(scryfallSet.SearchUri).PathAndQuery;
             var setCards = new List<Card>();
