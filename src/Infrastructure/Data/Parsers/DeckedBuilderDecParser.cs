@@ -15,7 +15,7 @@ using TinyCsvParser;
 
 namespace Infrastructure.Data.Parsers {
     public class DeckedBuilderDecParser : DeckedBuilderParser {
-        private const string parsingPattern = "^///mvid:(\\d+) qty:(\\d{1,2})";
+        private const string _parsingPattern = "^///mvid:(\\d+) qty:(\\d{1,2})";
 
         public DeckedBuilderDecParser(ICardRepository cardRepository, IDb2ScryfallRepository db2ScryfallRepository) :
             base(cardRepository, db2ScryfallRepository) { }
@@ -33,7 +33,7 @@ namespace Infrastructure.Data.Parsers {
 
             var fileContent = Encoding.ASCII.GetString(context.Content);
             var deck = new List<Item>();
-            var matches = Regex.Matches(fileContent, parsingPattern,RegexOptions.Multiline);
+            var matches = Regex.Matches(fileContent, _parsingPattern,RegexOptions.Multiline);
             foreach (Match match in matches) {
                 deck.Add(new Item {
                     id = int.Parse(match.Groups[1].Value),
