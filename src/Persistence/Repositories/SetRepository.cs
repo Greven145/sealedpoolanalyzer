@@ -5,7 +5,7 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories {
-    public class SetRepository : BaseRepository<Set>, ISetRepository {
+    public class SetRepository : BaseRepository<Set, AnalyzerContext>, ISetRepository {
         public SetRepository(AnalyzerContext dbContext) : base(dbContext) {
         }
 

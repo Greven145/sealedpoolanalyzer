@@ -90,6 +90,19 @@ namespace Persistence.Migrations
                     b.ToTable("Sets");
                 });
 
+            modelBuilder.Entity("Persistence.Models.DeckedBuilderToScryfallRelationship", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("Scryfallid")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DB2Scryfall");
+                });
+
             modelBuilder.Entity("Domain.Entities.MagicCard", b =>
                 {
                     b.HasOne("Domain.Entities.Set", "Set")

@@ -25,6 +25,8 @@ namespace Infrastructure.Data {
             await context.Database.MigrateAsync(cancellationToken: cancellationToken);
             await dataLoader.EnsureSetDataIsUpToDate(cancellationToken);
             await dataLoader.EnsureReviewDataIsUpToDate(cancellationToken);
+            await dataLoader.EnsureDeckedBuilderDataIsUpToDate(cancellationToken);
+            await dataLoader.EnsureDeckedBuilderToScryfallRelationshipsUpToDate(cancellationToken);
         }
 
         public Task StopAsync(CancellationToken cancellationToken) {

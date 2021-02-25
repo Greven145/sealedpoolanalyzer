@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Infrastructure.Models.tmp.Scryfall {
+namespace Infrastructure.Models.Scryfall {
     public class Legalities {
         [JsonProperty("standard")] public string Standard { get; set; }
 
