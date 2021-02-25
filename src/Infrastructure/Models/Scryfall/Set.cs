@@ -1,7 +1,7 @@
 ﻿using Application.Mapping;
 using Newtonsoft.Json;
 
-namespace Infrastructure.Models.tmp.Scryfall {
+namespace Infrastructure.Models.Scryfall {
     public class Set : IMapTo<Domain.Entities.Set> {
         [JsonProperty("object")] public string Object { get; set; }
 

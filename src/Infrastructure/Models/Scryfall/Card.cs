@@ -5,7 +5,7 @@ using AutoMapper;
 using Domain.Entities;
 using Newtonsoft.Json;
 
-namespace Infrastructure.Models.tmp.Scryfall {
+namespace Infrastructure.Models.Scryfall {
     public class Card : IEquatable<Card>, IMapTo<MagicCard> {
         public void Mapping(Profile profile) {
             var map = profile.CreateMap<Card, MagicCard>()

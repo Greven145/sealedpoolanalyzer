@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Infrastructure.Models.tmp.Scryfall {
+namespace Infrastructure.Models.Scryfall {
     public class RelatedUris {
         [JsonProperty("gatherer")] public string Gatherer { get; set; }
 

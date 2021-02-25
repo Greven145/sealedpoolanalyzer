@@ -4,7 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Infrastructure.Brokers.Scryfall;
 using Infrastructure.Mapping;
-using Infrastructure.Models.tmp.Scryfall;
+using Infrastructure.Models.Scryfall;
 using Moq;
 using RESTFulSense.Exceptions;
 using Tynamix.ObjectFiller;

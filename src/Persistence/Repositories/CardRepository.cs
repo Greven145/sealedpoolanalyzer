@@ -2,7 +2,7 @@
 using Domain.Entities;
 
 namespace Persistence.Repositories {
-    public class CardRepository : BaseRepository<MagicCard>, ICardRepository {
+    public class CardRepository : BaseRepository<MagicCard, AnalyzerContext>, ICardRepository {
         public CardRepository(AnalyzerContext dbContext) : base(dbContext) {
         }
     }
