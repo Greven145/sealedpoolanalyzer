@@ -70,10 +70,10 @@ namespace Infrastructure.Data {
                 }
                 else if ((DateTime.Now - set.DateLoaded).TotalDays > 7) {
                     _logger.LogInformation($"Refreshing data for set {setToLoad}");
-                    var setData = await _setLoader.GetSetFromId(setToLoad).ConfigureAwait(false);
-                    _context.Remove(setData);
+                    _context.Remove(set);
                     await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
+                    var setData = await _setLoader.GetSetFromId(setToLoad).ConfigureAwait(false);
                     await _context.Sets.AddAsync(setData, cancellationToken);
                     await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
                     _logger.LogInformation($"Loaded and saved {setData.Name} data");
@@ -93,13 +93,13 @@ namespace Infrastructure.Data {
                 .ThenInclude(c => c.Review);
 
             foreach (var set in sets) {
-                var jsonString = await File
-                    .ReadAllTextAsync(Path.Combine(_localPath, $"Data\\{set.Name}.Review.json"),
-                        cancellationToken).ConfigureAwait(false);
+                var safeSetName = new string(set.Name.Where(x => !Path.GetInvalidFileNameChars().Contains(x)).ToArray());
+                var fileToLoad = Path.Combine(_localPath, $"Data\\{safeSetName}.Review.json");
+                var jsonString = await File.ReadAllTextAsync(fileToLoad, cancellationToken).ConfigureAwait(false);
                 var reviewData = JsonSerializer.Deserialize<IEnumerable<Review>>(jsonString);
 
                 if (reviewData is null) {
-                    _logger.LogError($"Unable to load and parse review data for {set.Name}");
+                    _logger.LogError($"Unable to load and parse review data for {set.Name} ({fileToLoad})");
                     continue;
                 }
 
@@ -162,7 +162,7 @@ namespace Infrastructure.Data {
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
             foreach (var set in sets) {
-                if ((await _db2ScryfallRepository.CountAsync(cancellationToken)) != 0) {
+                if ((await _db2ScryfallRepository.CountOfSetAsync(set.Name,cancellationToken)) != 0) {
                     continue;
                 }
                 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -16,5 +17,10 @@ namespace Persistence.Repositories {
         }
 
         public Task<int> CountAsync(CancellationToken cancellationToken) => _dbContext.DB2Scryfall.CountAsync(cancellationToken);
+
+        public async Task<int> CountOfSetAsync(string setName, CancellationToken cancellationToken) =>
+            (from cardsInSet in (await _dbContext.Sets.FirstOrDefaultAsync(s => s.Name == setName, cancellationToken: cancellationToken)).MagicCards
+                join db2S in _dbContext.DB2Scryfall on cardsInSet.Id equals db2S.Scryfallid
+                select db2S).Count();
     }
 }

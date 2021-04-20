@@ -13,7 +13,7 @@ namespace Persistence.Repositories {
             return await _dbContext.Sets
                 .Include(s => s.MagicCards)
                 .ThenInclude(c => c.Review)
-                .FirstAsync(s => s.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+                .FirstAsync(s => s.Name.ToUpper() == name.ToUpper());
         }
 
         public async ValueTask<Set> GetSetByShortName(string shortName) {

@@ -42,7 +42,8 @@ namespace Infrastructure.Data.Parsers.Pipeline.Bases {
                 select new CardFromFile {
                     MultiverseId = card.MultiverseIds.First(),
                     Name = card.Name,
-                    Quantity = decCard.r
+                    Quantity = decCard.r,
+                    Set = card.Set.Name
                 }).ToList();
 
             cardsFromFile.AddRange(DuplicateByQuantity(cardsFromFile));
