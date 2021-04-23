@@ -1,0 +1,317 @@
+[{
+        "Name": "Day of Judgment",
+        "Cost": "{2}{W}{W}",
+        "Type": "Sorcery",
+        "AvgScore": 11.07
+    }, {
+        "Name": "Swords to Plowshares",
+        "Cost": "{W}",
+        "Type": "Instant",
+        "AvgScore": 10.53
+    }, {
+        "Name": "Crux of Fate",
+        "Cost": "{3}{B}{B}",
+        "Type": "Sorcery",
+        "AvgScore": 10.13
+    }, {
+        "Name": "Lightning Bolt",
+        "Cost": "{R}",
+        "Type": "Instant",
+        "AvgScore": 9.73
+    }, {
+        "Name": "Time Warp",
+        "Cost": "{3}{U}{U}",
+        "Type": "Sorcery",
+        "AvgScore": 9.60
+    }, {
+        "Name": "Doom Blade",
+        "Cost": "{1}{B}",
+        "Type": "Instant",
+        "AvgScore": 9.33
+    }, {
+        "Name": "Putrefy",
+        "Cost": "{1}{B}{G}",
+        "Type": "Instant",
+        "AvgScore": 9.33
+    }, {
+        "Name": "Mizzix's Mastery",
+        "Cost": "{3}{R}",
+        "Type": "Sorcery",
+        "AvgScore": 9.20
+    }, {
+        "Name": "Lightning Helix",
+        "Cost": "{R}{W}",
+        "Type": "Instant",
+        "AvgScore": 8.53
+    }, {
+        "Name": "Electrolyze",
+        "Cost": "{1}{U}{R}",
+        "Type": "Instant",
+        "AvgScore": 8.40
+    }, {
+        "Name": "Tezzeret's Gambit",
+        "Cost": "{3}{U/P}",
+        "Type": "Sorcery",
+        "AvgScore": 8.27
+    }, {
+        "Name": "Harmonize",
+        "Cost": "{2}{G}{G}",
+        "Type": "Sorcery",
+        "AvgScore": 8.13
+    }, {
+        "Name": "Eliminate",
+        "Cost": "{1}{B}",
+        "Type": "Instant",
+        "AvgScore": 7.87
+    }, {
+        "Name": "Primal Command",
+        "Cost": "{3}{G}{G}",
+        "Type": "Sorcery",
+        "AvgScore": 7.87
+    }, {
+        "Name": "Urza's Rage",
+        "Cost": "{2}{R}",
+        "Type": "Instant",
+        "AvgScore": 7.73
+    }, {
+        "Name": "Compulsive Research",
+        "Cost": "{2}{U}",
+        "Type": "Sorcery",
+        "AvgScore": 7.60
+    }, {
+        "Name": "Natural Order",
+        "Cost": "{2}{G}{G}",
+        "Type": "Sorcery",
+        "AvgScore": 7.20
+    }, {
+        "Name": "Counterspell",
+        "Cost": "{U}{U}",
+        "Type": "Instant",
+        "AvgScore": 7.07
+    }, {
+        "Name": "Shock",
+        "Cost": "{R}",
+        "Type": "Instant",
+        "AvgScore": 7.07
+    }, {
+        "Name": "Approach of the Second Sun",
+        "Cost": "{6}{W}",
+        "Type": "Sorcery",
+        "AvgScore": 7.07
+    }, {
+        "Name": "Demonic Tutor",
+        "Cost": "{1}{B}",
+        "Type": "Sorcery",
+        "AvgScore": 6.80
+    }, {
+        "Name": "Sign in Blood",
+        "Cost": "{B}{B}",
+        "Type": "Sorcery",
+        "AvgScore": 6.53
+    }, {
+        "Name": "Cultivate",
+        "Cost": "{2}{G}",
+        "Type": "Sorcery",
+        "AvgScore": 6.53
+    }, {
+        "Name": "Blue Sun's Zenith",
+        "Cost": "{X}{U}{U}{U}",
+        "Type": "Instant",
+        "AvgScore": 6.00
+    }, {
+        "Name": "Growth Spiral",
+        "Cost": "{G}{U}",
+        "Type": "Instant",
+        "AvgScore": 5.73
+    }, {
+        "Name": "Gods Willing",
+        "Cost": "{W}",
+        "Type": "Instant",
+        "AvgScore": 5.73
+    }, {
+        "Name": "Snakeskin Veil",
+        "Cost": "{G}",
+        "Type": "Instant",
+        "AvgScore": 5.60
+    }, {
+        "Name": "Opt",
+        "Cost": "{U}",
+        "Type": "Instant",
+        "AvgScore": 5.47
+    }, {
+        "Name": "Despark",
+        "Cost": "{W}{B}",
+        "Type": "Instant",
+        "AvgScore": 5.47
+    }, {
+        "Name": "Brainstorm",
+        "Cost": "{U}",
+        "Type": "Instant",
+        "AvgScore": 5.33
+    }, {
+        "Name": "Faithless Looting",
+        "Cost": "{R}",
+        "Type": "Sorcery",
+        "AvgScore": 5.07
+    }, {
+        "Name": "Abundant Harvest",
+        "Cost": "{G}",
+        "Type": "Sorcery",
+        "AvgScore": 4.93
+    }, {
+        "Name": "Regrowth",
+        "Cost": "{1}{G}",
+        "Type": "Sorcery",
+        "AvgScore": 4.93
+    }, {
+        "Name": "Village Rites",
+        "Cost": "{B}",
+        "Type": "Instant",
+        "AvgScore": 4.80
+    }, {
+        "Name": "Memory Lapse",
+        "Cost": "{1}{U}",
+        "Type": "Instant",
+        "AvgScore": 4.80
+    }, {
+        "Name": "Agonizing Remorse",
+        "Cost": "{1}{B}",
+        "Type": "Sorcery",
+        "AvgScore": 4.67
+    }, {
+        "Name": "Increasing Vengeance",
+        "Cost": "{R}{R}",
+        "Type": "Instant",
+        "AvgScore": 4.67
+    }, {
+        "Name": "Thrill of Possibility",
+        "Cost": "{1}{R}",
+        "Type": "Instant",
+        "AvgScore": 4.53
+    }, {
+        "Name": "Teferi's Protection",
+        "Cost": "{2}{W}",
+        "Type": "Instant",
+        "AvgScore": 4.53
+    }, {
+        "Name": "Chaos Warp",
+        "Cost": "{2}{R}",
+        "Type": "Instant",
+        "AvgScore": 4.53
+    }, {
+        "Name": "Ephemerate",
+        "Cost": "{W}",
+        "Type": "Instant",
+        "AvgScore": 4.40
+    }, {
+        "Name": "Grapeshot",
+        "Cost": "{1}{R}",
+        "Type": "Sorcery",
+        "AvgScore": 4.00
+    }, {
+        "Name": "Infuriate",
+        "Cost": "{R}",
+        "Type": "Instant",
+        "AvgScore": 3.73
+    }, {
+        "Name": "Divine Gambit",
+        "Cost": "{W}{W}",
+        "Type": "Sorcery",
+        "AvgScore": 3.60
+    }, {
+        "Name": "Whirlwind Denial",
+        "Cost": "{2}{U}",
+        "Type": "Instant",
+        "AvgScore": 3.33
+    }, {
+        "Name": "Defiant Strike",
+        "Cost": "{W}",
+        "Type": "Instant",
+        "AvgScore": 3.33
+    }, {
+        "Name": "Inquisition of Kozilek",
+        "Cost": "{B}",
+        "Type": "Sorcery",
+        "AvgScore": 2.80
+    }, {
+        "Name": "Negate",
+        "Cost": "{1}{U}",
+        "Type": "Instant",
+        "AvgScore": 2.80
+    }, {
+        "Name": "Adventurous Impulse",
+        "Cost": "{G}",
+        "Type": "Sorcery",
+        "AvgScore": 2.67
+    }, {
+        "Name": "Strategic Planning",
+        "Cost": "{1}{U}",
+        "Type": "Sorcery",
+        "AvgScore": 2.67
+    }, {
+        "Name": "Tendrils of Agony",
+        "Cost": "{2}{B}{B}",
+        "Type": "Sorcery",
+        "AvgScore": 2.53
+    }, {
+        "Name": "Dark Ritual",
+        "Cost": "{B}",
+        "Type": "Instant",
+        "AvgScore": 2.53
+    }, {
+        "Name": "Revitalize",
+        "Cost": "{1}{W}",
+        "Type": "Instant",
+        "AvgScore": 2.27
+    }, {
+        "Name": "Weather the Storm",
+        "Cost": "{1}{G}",
+        "Type": "Instant",
+        "AvgScore": 2.00
+    }, {
+        "Name": "Channel",
+        "Cost": "{G}{G}",
+        "Type": "Sorcery",
+        "AvgScore": 1.87
+    }, {
+        "Name": "Gift of Estates",
+        "Cost": "{1}{W}",
+        "Type": "Sorcery",
+        "AvgScore": 1.87
+    }, {
+        "Name": "Duress",
+        "Cost": "{B}",
+        "Type": "Sorcery",
+        "AvgScore": 1.73
+    }, {
+        "Name": "Mana Tithe",
+        "Cost": "{W}",
+        "Type": "Instant",
+        "AvgScore": 1.47
+    }, {
+        "Name": "Claim the Firstborn",
+        "Cost": "{R}",
+        "Type": "Sorcery",
+        "AvgScore": 1.47
+    }, {
+        "Name": "Tainted Pact",
+        "Cost": "{1}{B}",
+        "Type": "Instant",
+        "AvgScore": 1.33
+    }, {
+        "Name": "Stone Rain",
+        "Cost": "{2}{R}",
+        "Type": "Sorcery",
+        "AvgScore": 1.07
+    }, {
+        "Name": "Mind's Desire",
+        "Cost": "{4}{U}{U}",
+        "Type": "Sorcery",
+        "AvgScore": 1.07
+    }, {
+        "Name": "Krosan Grip",
+        "Cost": "{2}{G}",
+        "Type": "Instant",
+        "AvgScore": 0.67
+    }
+]

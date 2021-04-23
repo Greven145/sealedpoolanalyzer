@@ -52,15 +52,17 @@ namespace Web.Data {
         private async ValueTask<IEnumerable<MagicCard>> GetCardsForPool(IEnumerable<CardFromFile> sealedCards) {
             var sets = sealedCards.Select(x => x.Set).Distinct();
 
+            var cardsFromSet = new List<MagicCard>();
             var cards = new List<MagicCard>();
             foreach (var set in sets) {
-                var setFromName = await _repository.GetSetByName(set);
-                cards.AddRange(sealedCards.Select(sealedCard => 
-                    setFromName.MagicCards.First(m => 
-                        m.MultiverseIds.Contains(sealedCard.MultiverseId)
-                    )
-                ).ToList());
+                cardsFromSet.AddRange((await _repository.GetSetByName(set)).MagicCards);
             }
+            cards.AddRange(sealedCards.Select(sealedCard => 
+                cardsFromSet.First(m => 
+                    m.MultiverseIds.Contains(sealedCard.MultiverseId)
+                )
+            ).ToList());
+
 
             var cardsNotFound = sealedCards
                 .Where(s => !cards.SelectMany(t => t.MultiverseIds).Contains(s.MultiverseId))

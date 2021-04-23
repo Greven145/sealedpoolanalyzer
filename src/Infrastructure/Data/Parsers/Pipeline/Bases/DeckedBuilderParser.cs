@@ -40,7 +40,7 @@ namespace Infrastructure.Data.Parsers.Pipeline.Bases {
                 join rel in relationships on decCard.id equals rel.Id
                 join card in cards on rel.Scryfallid equals card.Id
                 select new CardFromFile {
-                    MultiverseId = card.MultiverseIds.First(),
+                    MultiverseId = card.MultiverseIds.FirstOrDefault(),
                     Name = card.Name,
                     Quantity = decCard.r,
                     Set = card.Set.Name
